@@ -21,10 +21,10 @@ cd game-jam-team-9
 git lfs pull
 ```
 
-## Run the project
+# 2. Run the project
 Run the project (F5).
 
-## Structure
+# 3. Structure
 - `scenes/` → game objects (Player, Enemy, etc.)
 - `scripts/` → code for objects
 - `assets/` → sprites, sounds, fonts
@@ -49,7 +49,7 @@ git push
 ```
 
 
-## Team Notes; TLDR
+# 4. Team Notes; TLDR
 - Keep code modular.
 - Commit early and often.
 - Use branches for features.
