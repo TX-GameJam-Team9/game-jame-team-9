@@ -1,4 +1,4 @@
 extends Node2D
 
 func _ready() -> void:
-    print("Game scene loaded")
+	print("Game scene loaded")

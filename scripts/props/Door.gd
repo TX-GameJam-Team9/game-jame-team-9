@@ -12,12 +12,14 @@ func _ready() -> void:
 
 func set_locked(v: bool) -> void:
 	locked = v
-	# Toggle blocker collider on/off
+	# Show/hide and enable/disable the blocking collider
+	blocker.visible = v
+	# Disable the StaticBody’s shapes when unlocked
 	for child in blocker.get_children():
 		if child is CollisionShape2D:
 			child.disabled = not v
-	blocker.visible = v   # optional, if you give Blocker a sprite later
 
 func _on_body_entered(body: Node) -> void:
+	# Later your Player will be in group "player"
 	if not locked and body.is_in_group("player"):
 		emit_signal("entered", direction)
