@@ -1,12 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://klrob54qc0wb"]
+[gd_scene load_steps=3 format=3 uid="uid://klrob54qc0wb"]
 
 [ext_resource type="Script" uid="uid://dxwiaeca8uu5f" path="res://scripts/props/Door.gd" id="1_mcav3"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mcav3"]
+size = Vector2(64, 70)
+
 [node name="Door" type="Node2D"]
 script = ExtResource("1_mcav3")
+direction = null
+locked = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="Blocker" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Blocker"]
+shape = SubResource("RectangleShape2D_mcav3")
