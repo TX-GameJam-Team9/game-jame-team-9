@@ -1,23 +1,13 @@
 extends Area2D
-signal entered(direction: String)
 
-@export var direction := "E"   # "N","E","S","W"
-@export var locked := true
 
-@onready var blocker: StaticBody2D = $Blocker
-
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	set_locked(locked)
-	connect("body_entered", Callable(self, "_on_body_entered"))
+	var mob_types = Array($AnimatedSprite2D.sprite_frames.get_animation_names())
+	$AnimatedSprite2D.animation = mob_types.pick_random()
+	$AnimatedSprite2D.play()
 
-func set_locked(v: bool) -> void:
-	locked = v
-	# Toggle blocker collider on/off
-	for child in blocker.get_children():
-		if child is CollisionShape2D:
-			child.disabled = not v
-	blocker.visible = v   # optional, if you give Blocker a sprite later
 
-func _on_body_entered(body: Node) -> void:
-	if not locked and body.is_in_group("player"):
-		emit_signal("entered", direction)
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass

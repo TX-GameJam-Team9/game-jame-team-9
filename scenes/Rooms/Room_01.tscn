@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://i7g74yn170kj"]
+[gd_scene load_steps=12 format=3 uid="uid://i7g74yn170kj"]
 
 [ext_resource type="PackedScene" uid="uid://ugfi8smmrtc5" path="res://scenes/Rooms/RoomBase.tscn" id="1_kl4sb"]
 [ext_resource type="Texture2D" uid="uid://chbooqtrpw2pa" path="res://assets/tiles.png" id="2_q7gib"]
 [ext_resource type="PackedScene" uid="uid://dw71h5kwywifa" path="res://scenes/player.tscn" id="3_q7gib"]
+[ext_resource type="PackedScene" uid="uid://bqdosvpbpy4vi" path="res://scenes/enemy.tscn" id="3_sg8al"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sg8al"]
 texture = ExtResource("2_q7gib")
@@ -64,6 +65,8 @@ size = Vector2(64, 640)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cwvqp"]
 size = Vector2(64, 288)
 
+[sub_resource type="Curve2D" id="Curve2D_sg8al"]
+
 [node name="RoomBase" instance=ExtResource("1_kl4sb")]
 
 [node name="TileMap" parent="." index="0"]
@@ -74,6 +77,8 @@ layer_0/tile_data = PackedInt32Array(0, 0, 8, 65536, 0, 9, 1, 65536, 8, 65537, 6
 
 [node name="Door_E" parent="Doors" index="0"]
 position = Vector2(993, 322)
+
+[node name="Enemy" parent="EnemySpawns" index="1" instance=ExtResource("3_sg8al")]
 
 [node name="Walls" type="StaticBody2D" parent="." index="4"]
 
@@ -98,3 +103,6 @@ position = Vector2(992, 497)
 shape = SubResource("RectangleShape2D_cwvqp")
 
 [node name="Player" parent="." index="5" instance=ExtResource("3_q7gib")]
+
+[node name="BaseEnemyPath" type="Path2D" parent="." index="6"]
+curve = SubResource("Curve2D_sg8al")
