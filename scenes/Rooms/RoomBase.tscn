@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://ugfi8smmrtc5"]
+
+[ext_resource type="PackedScene" uid="uid://klrob54qc0wb" path="res://scenes/props/Door.tscn" id="1_dkr1g"]
+
+[node name="RoomBase" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door_E" parent="Doors" instance=ExtResource("1_dkr1g")]
+
+[node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawns"]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
