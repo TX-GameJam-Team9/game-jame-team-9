@@ -1,12 +1,12 @@
 extends Area2D
 signal entered(direction: String)
 
-@export var direction := "E"      # "N","E","S","W"
-@export var locked := true
+@export var direction := "E"
+@export var locked: bool = true : set = set_locked   # <-- call set_locked whenever it changes
 
 @onready var blocker: StaticBody2D     = $Blocker
 @onready var trigger: CollisionShape2D = $CollisionShape2D
-@onready var sprite := $Sprite2D       # or $AnimatedSprite2D if you used that
+@onready var sprite                    = $Sprite2D    # or $AnimatedSprite2D
 
 func _ready() -> void:
 	set_locked(locked)
@@ -14,21 +14,22 @@ func _ready() -> void:
 
 func set_locked(v: bool) -> void:
 	locked = v
+	if !is_node_ready():
+		return
 
-	# 1) Toggle the physical blocker
+	# Toggle the physical blocker
 	for c in blocker.get_children():
 		if c is CollisionShape2D:
 			c.disabled = not v
-	blocker.visible = v  # optional: show a panel when closed
+	blocker.visible = v   # optional visual for the blocker
 
-	# 2) Toggle the visual
+	# Visual feedback
 	if sprite and sprite is AnimatedSprite2D:
-		sprite.play( locked ? "closed" : "open" )
+		sprite.play("closed" if v else "open")
 	elif sprite and sprite is Sprite2D:
-		# simple color cue for now (red = closed, green = open)
-		sprite.modulate = locked ? Color(0.85, 0.25, 0.25) : Color(0.25, 0.85, 0.25)
-		# optional: hide sprite when open if you want an empty doorway
-		# sprite.visible = locked
+		sprite.modulate = Color(0.85, 0.25, 0.25) if v else Color(0.25, 0.85, 0.25)
+
+	print("Door locked =", locked)
 
 func _on_body_entered(body: Node) -> void:
 	if locked:
