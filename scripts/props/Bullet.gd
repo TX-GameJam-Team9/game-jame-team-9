@@ -1,9 +1,11 @@
 extends Area2D
 
+@onready var slime_sprite: AnimatedSprite2D = $Slime_Sprite
 @export var speed: float = 600.0              # bullet speed (px/s)
 @export var lifetime: float = 0.0             # 0 = infinite; >0 auto-despawn after seconds
 var velocity: Vector2 = Vector2.ZERO          # set by Shooter
 var health = 0
+var Slime_State = "default"
 
 func set_direction(dir: Vector2) -> void:
 	# Shooter calls this after instancing
@@ -19,10 +21,6 @@ func _ready() -> void:
 	# Hook collision signals (works for both bodies and areas)
 	body_entered.connect(_on_body_entered)
 	area_entered.connect(_on_area_entered)
-
-	# (Optional) tint the temp sprite so it's visible
-	if has_node("Sprite2D"):
-		$Sprite2D.modulate = Color(1, 0, 0)
 
 	# (Optional) auto-clean if it leaves the screen (add a VisibilityNotifier2D node to use this)
 	if has_node("VisibilityNotifier2D"):
@@ -45,6 +43,9 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		return
 	if area.is_in_group("enemy"):
-		print ("Layy shot")
-		queue_free()
+		Slime_State = "Hit"
+		$Slime_Sprite.play(Slime_State)
 	
+func _on_slime_sprite_animation_finished() -> void:
+	if $Slime_Sprite.animation_finished:
+		queue_free()
