@@ -26,7 +26,6 @@ func _ready() -> void:
 	add_to_group("player")
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite2D.play(player_anim)
-	$AnimatedSprite2D.animation_finished.connect(after_shoot)
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,12 +55,9 @@ func _physics_process(delta: float) -> void:
 	# Handle animation and direction
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.animation = "walk"
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
 		$AnimatedSprite2D.play()
-	else:
-		$AnimatedSprite2D.stop()
 		
 	self.velocity = velocity
 	move_and_slide()
@@ -69,14 +65,12 @@ func _physics_process(delta: float) -> void:
 #Player enemy collision
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
-		print ("YEOUCH")
+		player_anim = "hurt"
+		$AnimatedSprite2D.play(player_anim)
 		
 #Animation resetter
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if player_anim == "shoot":
+	if player_anim != "idle":
 		player_anim = "idle"
 		$AnimatedSprite2D.play(player_anim)
-
-
-func _on_animated_sprite_2d_animation_changed() -> void:
-	pass # Replace with function body.
+	

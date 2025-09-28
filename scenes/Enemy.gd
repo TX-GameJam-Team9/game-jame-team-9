@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 	if not finished:
 		update_path()
 		var direction = (nav.get_next_path_position() - global_position).normalized()
-		translate(direction * 200 * delta)
+		translate(direction * 30 * delta)
 
 #Detects if shot, plays hurt animation if it is
 func _on_area_entered(area: Area2D) -> void:
