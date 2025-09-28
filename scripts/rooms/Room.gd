@@ -23,6 +23,19 @@ signal door_entered(room, direction: String)
 var _alive := 0
 var _entered := false
 
+func _room_rect_px() -> Rect2:
+	var used: Rect2i = tilemap.get_used_rect()
+	var tile := tilemap.tile_set.tile_size
+	var pos_px := tilemap.to_global(tilemap.map_to_local(used.position))
+	var size_px := Vector2(used.size) * Vector2(tile)
+	return Rect2(pos_px, size_px)
+
+func _rand_point_in_rect(rect: Rect2, margin: float = 64.0) -> Vector2:
+	return Vector2(
+		randf_range(rect.position.x + margin, rect.position.x + rect.size.x - margin),
+		randf_range(rect.position.y + margin, rect.position.y + rect.size.y - margin)
+	)
+
 func _ready() -> void:
 	randomize()
 	# Hook up UI and start timer
@@ -52,16 +65,36 @@ func _pick_spawn_pos() -> Vector2:
 		if m is Node2D:
 			return (m as Node2D).global_position
 	# Fallback: around the player in a ring
-	var p := MainInstance.player.global_position
+	var rect := _room_rect_px()
+	var p := MainInstance.player.global_position if MainInstance.player else rect.get_center()
 	var dir := Vector2.RIGHT.rotated(randf() * TAU)
-	return p + dir * 300.0
+	for i in 8:
+		var pos := _rand_point_in_rect(rect, 96.0)
+		if pos.distance_to(p) > 220.0:
+			return pos
+	return _rand_point_in_rect(rect, 96.0)  # fallback
 
 func _spawn_one() -> void:
-	if _capacity() <= 0 or enemy_scene == null:
+	if enemy_scene == null or _capacity() <= 0:
 		return
 	var e := enemy_scene.instantiate()
 	(e as Node2D).global_position = _pick_spawn_pos()
-	get_tree().current_scene.add_child(e)  # or add_child(e) if Room is the gameplay root
+	get_tree().current_scene.add_child(e)
+	# When the enemy is freed, we’ll be notified:
+	if not e.is_connected("tree_exited", Callable(self, "_on_enemy_left_tree")):
+		e.connect("tree_exited", Callable(self, "_on_enemy_left_tree"))
+
+func _on_enemy_left_tree() -> void:
+	var cap := _capacity()
+	if cap <= 0:
+		return
+	var n := randi_range(0, spawn_chunk_max)
+	if _alive_count() == 0:
+		n = max(1, n)  # guarantee at least 1 if you just cleared them all
+	n = min(n, cap)
+	for i in range(n):
+		_spawn_one()
+
 
 func _on_spawn_tick() -> void:
 	var cap := _capacity()
