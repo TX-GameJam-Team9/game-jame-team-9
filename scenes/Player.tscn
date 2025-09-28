@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dw71h5kwywifa"]
+[gd_scene load_steps=21 format=3 uid="uid://dw71h5kwywifa"]
 
 [ext_resource type="Script" uid="uid://cw6ad6s83p626" path="res://scripts/player.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dirkcc3c4imsf" path="res://assets/bbWALKss.png" id="2_dqkch"]
@@ -121,6 +121,10 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mdl7e"]
+radius = 15.0
+height = 42.0
+
 [node name="Player" type="Node2D"]
 position = Vector2(-1, 2)
 
@@ -137,3 +141,7 @@ position = Vector2(-7.6293945e-06, -7.6293945e-06)
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_3v2ag")
 animation = &"shoot"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(1, 3)
+shape = SubResource("CapsuleShape2D_mdl7e")

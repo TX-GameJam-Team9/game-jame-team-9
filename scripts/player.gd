@@ -34,7 +34,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO # The player's movement vector.
 	var to_mouse := get_global_mouse_position() - global_position
-	$AnimatedSprite2D.flip_h = to_mouse.x > 0    # flip left/right
 
 	if Input.is_action_just_pressed("shoot"):
 		print("Shots fired!") 
@@ -69,4 +68,4 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.stop()
 		
 	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
+	#position = position.clamp(Vector2.ZERO, screen_size)
