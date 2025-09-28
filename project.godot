@@ -26,6 +26,11 @@ window/stretch/mode="viewport"
 
 project/assembly_name="GameJam-Team9"
 
+[global_group]
+
+player=""
+wall=""
+
 [input]
 
 move_up={
