@@ -1,9 +1,22 @@
-[gd_scene load_steps=22 format=3 uid="uid://dw71h5kwywifa"]
+[gd_scene load_steps=26 format=3 uid="uid://dw71h5kwywifa"]
 
 [ext_resource type="Script" uid="uid://cw6ad6s83p626" path="res://scripts/player.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dirkcc3c4imsf" path="res://assets/bbWALKss.png" id="2_dqkch"]
+[ext_resource type="Texture2D" uid="uid://b4doujn4w7duk" path="res://assets/bbHurt.png" id="3_qu4a1"]
 [ext_resource type="Texture2D" uid="uid://btukl8qg78h7u" path="res://assets/bbCastSS.png" id="4_qlg0r"]
 [ext_resource type="Script" uid="uid://c46byyqj7egtb" path="res://scripts/shooter.gd" id="6_70d11"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70d11"]
+atlas = ExtResource("3_qu4a1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cw2d6"]
+atlas = ExtResource("3_qu4a1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_khinc"]
+atlas = ExtResource("3_qu4a1")
+region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfm1y"]
 atlas = ExtResource("2_dqkch")
@@ -65,6 +78,20 @@ region = Rect2(224, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_70d11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cw2d6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_khinc")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qfm1y")
 }],
 "loop": true,
@@ -87,9 +114,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a8ls1")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -145,7 +172,8 @@ script = ExtResource("6_70d11")
 position = Vector2(-1.0000076, -3.0000076)
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_3v2ag")
-animation = &"shoot"
+animation = &"hurt"
+autoplay = "idle"
 
 [node name="Area2D" type="Area2D" parent="CharacterBody2D" groups=["player"]]
 
@@ -155,4 +183,6 @@ shape = SubResource("CapsuleShape2D_mdl7e")
 [node name="Collision for World" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_qu4a1")
 
+[connection signal="animation_changed" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_changed"]
+[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="CharacterBody2D/Area2D" to="CharacterBody2D" method="_on_area_2d_area_entered"]
