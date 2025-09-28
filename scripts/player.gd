@@ -21,6 +21,7 @@ func after_shoot(anim_name):
 func shoot_animation():
 	player_anim = "shoot"
 	$AnimatedSprite2D.play(player_anim)
+	$Spitball_SFX.play()
 	#aim with mouse
 	var dir := (get_global_mouse_position() - global_position).normalized()
 	emit_signal("shot", dir)
@@ -96,6 +97,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		take_damage()
 		player_anim = "hurt"
 		$AnimatedSprite2D.play(player_anim)
+		$Player_Hurt_SFX.play()
 
 # Reset animation when done
 func _on_animated_sprite_2d_animation_finished() -> void:

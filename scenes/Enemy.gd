@@ -1,5 +1,6 @@
 extends Area2D
-
+@onready var enemy_death_sfx: AudioStreamPlayer2D = $Enemy_Death_SFX
+@onready var enemy_hurt_sfx: AudioStreamPlayer2D = $Enemy_Hurt_SFX
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
 @export var speed: float = 30.0          # teammate had 30 in _physics_process
 @export var hits_to_kill: int = 5        # how many bullet hits until death
@@ -45,6 +46,7 @@ func _on_area_entered(area: Area2D) -> void:
 			area.queue_free()
 
 		hits += 1
+		
 
 		if hits < hits_to_kill:
 			anim_name = "hurt"
@@ -65,3 +67,4 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if anim_name == "hurt":
 		anim_name = "default"
 		$AnimatedSprite2D.play(anim_name)
+		$Enemy_Hurt_SFX.play()
