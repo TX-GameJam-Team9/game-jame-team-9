@@ -136,7 +136,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Player" type="Node2D"]
@@ -159,7 +159,7 @@ animation = &"walk"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_3v2ag")
-animation = &"idle"
+animation = &"walk"
 
 [node name="Shooter" type="Node2D" parent="Player"]
 script = ExtResource("6_70d11")
