@@ -100,3 +100,17 @@ func _fmt(seconds: float) -> String:
 	var m := s / 60
 	var r := s % 60
 	return "%02d:%02d" % [m, r]
+func add_time(amount: float) -> void:
+	time_left = clampf(time_left + amount, clamp_min, clamp_max)
+	emit_signal("time_changed", time_left)
+	_update_ui()
+	if time_left <= clamp_min:
+		_on_time_up()
+
+# Remove time but never below 0
+func remove_time(amount: float) -> void:
+	time_left = clampf(time_left - amount, clamp_min, clamp_max)
+	emit_signal("time_changed", time_left)
+	_update_ui()
+	if time_left <= clamp_min:
+		_on_time_up()

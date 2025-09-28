@@ -4,6 +4,8 @@ extends CharacterBody2D
 var screen_size # Size of the game window.
 var is_shooting = false
 @onready var shooter = $Shooter
+var game_timer: Node = null
+
 
 
 func after_shoot(anim_name):
@@ -28,6 +30,7 @@ func _ready() -> void:
 	$AnimatedSprite2D.animation = "idle"
 	$AnimatedSprite2D.play()
 	$AnimatedSprite2D.animation_finished.connect(after_shoot)
+	game_timer = get_tree().root.get_node("../../GameTimer")
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,3 +71,7 @@ func _physics_process(delta: float) -> void:
 	self.velocity = velocity
 	move_and_slide()
 	
+func take_damage():
+	if game_timer:
+		game_timer.remove_time(10.0)
+	print("Player took damage!")

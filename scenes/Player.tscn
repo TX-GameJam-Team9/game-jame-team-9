@@ -1,9 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://dw71h5kwywifa"]
+[gd_scene load_steps=22 format=3 uid="uid://dw71h5kwywifa"]
 
 [ext_resource type="Script" uid="uid://cw6ad6s83p626" path="res://scripts/player.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dirkcc3c4imsf" path="res://assets/bbWALKss.png" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://btukl8qg78h7u" path="res://assets/bbCastSS.png" id="4_qlg0r"]
-[ext_resource type="Script" path="res://scripts/shooter.gd" id="6_70d11"]
+[ext_resource type="Script" uid="uid://c46byyqj7egtb" path="res://scripts/shooter.gd" id="6_70d11"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfm1y"]
 atlas = ExtResource("2_dqkch")
@@ -125,6 +125,10 @@ animations = [{
 radius = 15.0
 height = 42.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qu4a1"]
+radius = 15.0
+height = 42.0
+
 [node name="Player" type="Node2D"]
 position = Vector2(-1, 2)
 
@@ -147,5 +151,8 @@ animation = &"shoot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D"]
 shape = SubResource("CapsuleShape2D_mdl7e")
+
+[node name="Collision for World" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_qu4a1")
 
 [connection signal="area_entered" from="CharacterBody2D/Area2D" to="CharacterBody2D" method="_on_area_2d_area_entered"]
