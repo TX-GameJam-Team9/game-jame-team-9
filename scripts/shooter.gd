@@ -33,5 +33,3 @@ func shoot(dir: Vector2) -> void:
 
 	# give it velocity/speed (Bullet.gd defines @export var speed and var velocity)
 	b.velocity = dir.normalized() * b.speed
-
-	print("bullet instanced at ", b.global_position)
