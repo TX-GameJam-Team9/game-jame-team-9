@@ -41,7 +41,6 @@ func _physics_process(delta: float) -> void:
 
 	# Handle shooting input
 	if Input.is_action_just_pressed("shoot"):
-		print("Shots fired!") 
 		shoot_animation()
 		
 		var dir: Vector2 = (get_global_mouse_position() - $Shooter.global_position).normalized()
