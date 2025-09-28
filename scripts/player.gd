@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
 var player_anim = "idle"
+var last_facing_right := false
 @onready var shooter = $Shooter
 var game_timer: Node = null
 
@@ -59,13 +60,19 @@ func _physics_process(delta: float) -> void:
 
 	# Handle animation and direction
 	if velocity.length() > 0:
+		if player_anim != "hurt" && player_anim != "shoot":
+			player_anim = "walk"
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.flip_v = false
-		$AnimatedSprite2D.flip_h = velocity.x > 0
-		$AnimatedSprite2D.play()
-	else:
-		$AnimatedSprite2D.stop()
-		
+
+		if velocity.x != 0:
+			last_facing_right = velocity.x > 0
+			$AnimatedSprite2D.flip_h = last_facing_right
+		elif velocity.y != 0:
+			$AnimatedSprite2D.flip_h = last_facing_right
+		$AnimatedSprite2D.play(player_anim)
+	if velocity.length() == 0 && player_anim == "walk":
+			$AnimatedSprite2D.stop()
+
 	self.velocity = velocity
 	move_and_slide()
 	
