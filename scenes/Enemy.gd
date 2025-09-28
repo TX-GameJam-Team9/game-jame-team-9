@@ -1,6 +1,5 @@
 extends Area2D
 
-@onready var player: Node2D = get_node("../../Player")
 @onready var nav : NavigationAgent2D = $NavigationAgent2D
 var finished = false
 
@@ -13,7 +12,7 @@ func _ready() -> void:
 
 	# Set Destination
 func update_path():
-	nav.target_position = player.global_position
+	nav.target_position = MainInstance.player.global_position
 
 func _physics_process(delta: float) -> void:
 	if not finished:

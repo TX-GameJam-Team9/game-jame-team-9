@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://i7g74yn170kj"]
+[gd_scene load_steps=14 format=3 uid="uid://i7g74yn170kj"]
 
 [ext_resource type="PackedScene" uid="uid://ugfi8smmrtc5" path="res://scenes/Rooms/RoomBase.tscn" id="1_kl4sb"]
 [ext_resource type="Script" uid="uid://cs23dg1o4ycm2" path="res://scripts/rooms/Room.gd" id="2_cwvqp"]
@@ -81,6 +81,10 @@ sources/0 = SubResource("TileSetAtlasSource_sg8al")
 
 [sub_resource type="Curve2D" id="Curve2D_sg8al"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_05q7r"]
+source_geometry_mode = 1
+source_geometry_group_name = &"navigation"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sg8al"]
 size = Vector2(960, 64)
 
@@ -117,6 +121,7 @@ script = ExtResource("4_05q7r")
 curve = SubResource("Curve2D_sg8al")
 
 [node name="NavigationRegion2D2" type="NavigationRegion2D" parent="." index="6"]
+navigation_polygon = SubResource("NavigationPolygon_05q7r")
 
 [node name="Enemy" parent="." index="7" instance=ExtResource("3_sg8al")]
 visibility_layer = 2

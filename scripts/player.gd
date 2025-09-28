@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
@@ -5,6 +6,8 @@ var screen_size # Size of the game window.
 var is_shooting = false
 @onready var shooter = $Shooter
 
+func _enter_tree() -> void:
+	MainInstance.player = self
 
 func after_shoot(anim_name):
 	if anim_name == "shoot":
