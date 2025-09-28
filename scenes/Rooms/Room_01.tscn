@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://i7g74yn170kj"]
+[gd_scene load_steps=17 format=3 uid="uid://i7g74yn170kj"]
 
 [ext_resource type="PackedScene" uid="uid://ugfi8smmrtc5" path="res://scenes/Rooms/RoomBase.tscn" id="1_kl4sb"]
+[ext_resource type="Script" uid="uid://cs23dg1o4ycm2" path="res://scripts/rooms/Room.gd" id="2_cwvqp"]
 [ext_resource type="Texture2D" uid="uid://chbooqtrpw2pa" path="res://assets/tiles.png" id="2_q7gib"]
 [ext_resource type="PackedScene" uid="uid://dw71h5kwywifa" path="res://scenes/Player.tscn" id="3_q7gib"]
 [ext_resource type="PackedScene" uid="uid://bqdosvpbpy4vi" path="res://scenes/enemy.tscn" id="3_sg8al"]
 [ext_resource type="Script" uid="uid://cnr03shh7mobo" path="res://scenes/player.gd" id="4_05q7r"]
+[ext_resource type="Script" path="res://scripts/GameTimer.gd" id="6_g3d1a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sg8al"]
 texture = ExtResource("2_q7gib")
@@ -91,7 +93,14 @@ size = Vector2(64, 640)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cwvqp"]
 size = Vector2(64, 288)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwvqp"]
+bg_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3d1a"]
+bg_color = Color(0.9955804, 0.99558026, 0.99558026, 1)
+
 [node name="RoomBase" instance=ExtResource("1_kl4sb")]
+script = ExtResource("2_cwvqp")
 
 [node name="Door_E" parent="Doors" index="0"]
 position = Vector2(993, 322)
@@ -136,3 +145,31 @@ shape = SubResource("RectangleShape2D_cwvqp")
 [node name="Right2" type="CollisionShape2D" parent="Walls" index="4"]
 position = Vector2(641, 394)
 shape = SubResource("RectangleShape2D_cwvqp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="9"]
+
+[node name="HUD" type="Control" parent="CanvasLayer" index="0"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/HUD" index="0"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="TimeBar" type="ProgressBar" parent="CanvasLayer/HUD" index="1"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_right = 910.0
+offset_bottom = 24.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_cwvqp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_g3d1a")
+show_percentage = false
+
+[node name="GameTimer" type="Node" parent="CanvasLayer" index="1"]
+script = ExtResource("6_g3d1a")
