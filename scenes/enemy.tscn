@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bqdosvpbpy4vi"]
 
-[ext_resource type="Script" uid="uid://qak8ir48gj24" path="res://scenes/enemy.gd" id="1_5uy6h"]
-[ext_resource type="Script" uid="uid://rssuj0kck6xq" path="res://scripts/bullet.gd" id="3_2hs0m"]
+[ext_resource type="Script" uid="uid://qak8ir48gj24" path="res://scenes/Enemy.gd" id="1_5uy6h"]
+[ext_resource type="Script" uid="uid://rssuj0kck6xq" path="res://scripts/props/Bullet.gd" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://cke1h3wy6yfx0" path="res://assets/icon.svg" id="4_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://cft6lvqkvvqvf" path="res://assets/larrySS.png" id="4_5uy6h"]
 
