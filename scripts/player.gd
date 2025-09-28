@@ -73,16 +73,16 @@ func _physics_process(delta: float) -> void:
 			walk_sfx.play()
 
 
-		if velocity.x != 0:
-      last_facing_right = velocity.x > 0
-      $AnimatedSprite2D.flip_h = last_facing_right
-      if not walk_sfx.playing:
-        walk_sfx.play()
-    elif velocity.y != 0:
-      $AnimatedSprite2D.flip_h = last_facing_right
-      $AnimatedSprite2D.play(player_anim)
-      if not walk_sfx.playing:
-        walk_sfx.play()
+	if velocity.x != 0:
+		last_facing_right = velocity.x > 0
+		$AnimatedSprite2D.flip_h = last_facing_right
+	if not walk_sfx.playing:
+		walk_sfx.play()
+	elif velocity.y != 0:
+		$AnimatedSprite2D.flip_h = last_facing_right
+		$AnimatedSprite2D.play(player_anim)
+	if not walk_sfx.playing:
+		walk_sfx.play()
 
 	if velocity.length() == 0 && player_anim == "walk":
 			$AnimatedSprite2D.stop()
