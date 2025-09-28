@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://dw71h5kwywifa"]
+[gd_scene load_steps=23 format=3 uid="uid://dw71h5kwywifa"]
 
 [ext_resource type="Script" uid="uid://cw6ad6s83p626" path="res://scripts/player.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dirkcc3c4imsf" path="res://assets/bbWALKss.png" id="2_dqkch"]
 [ext_resource type="Script" uid="uid://rssuj0kck6xq" path="res://scripts/Bullet.gd" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://cke1h3wy6yfx0" path="res://assets/icon.svg" id="4_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://btukl8qg78h7u" path="res://assets/bbCastSS.png" id="4_qlg0r"]
+[ext_resource type="Script" uid="uid://c46byyqj7egtb" path="res://scripts/shooter.gd" id="6_70d11"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_feb5d"]
 animations = [{
@@ -159,3 +160,6 @@ animation = &"walk"
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_3v2ag")
 animation = &"idle"
+
+[node name="Shooter" type="Node2D" parent="Player"]
+script = ExtResource("6_70d11")

@@ -16,6 +16,9 @@ func shoot_animation():
 	is_shooting = true
 	$AnimatedSprite2D.animation="shoot"
 	$AnimatedSprite2D.play()
+	#aim with mouse
+	var dir := (get_global_mouse_position() - global_position).normalized()
+	emit_signal("shot", dir)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,7 +32,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_just_pressed("shoot"):
+		print("Shots fired!")
 		shoot_animation()
+		var dir = (get_global_mouse_position() - global_position).normalized()
+		emit_signal("shot", dir)
 		
 	if is_shooting:
 		pass
