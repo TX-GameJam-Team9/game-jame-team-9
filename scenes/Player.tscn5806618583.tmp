@@ -129,8 +129,6 @@ height = 42.0
 position = Vector2(-1, 2)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-collision_mask = 2
-platform_wall_layers = 3
 script = ExtResource("1_hqtel")
 
 [node name="Shooter" type="Node2D" parent="CharacterBody2D"]

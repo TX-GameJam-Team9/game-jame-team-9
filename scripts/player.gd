@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
@@ -31,23 +31,21 @@ func _ready() -> void:
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	var velocity = Vector2.ZERO # The player's movement vector.
-	var to_mouse := get_global_mouse_position() - global_position
-	$AnimatedSprite2D.flip_h = to_mouse.x > 0    # flip left/right
 
+func _physics_process(delta: float) -> void:
+	var velocity: Vector2 = Vector2.ZERO
+	var to_mouse: Vector2 = get_global_mouse_position() - global_position
+
+	# Handle shooting input
 	if Input.is_action_just_pressed("shoot"):
 		print("Shots fired!") 
 		shoot_animation()
-		var dir := ((get_global_mouse_position() - $Shooter.global_position).normalized()) as Vector2
-		$Shooter.look_at(get_global_mouse_position())   # optional: rotate the shooter/muzzle to aim
+		
+		var dir: Vector2 = (get_global_mouse_position() - $Shooter.global_position).normalized()
+		$Shooter.look_at(get_global_mouse_position())
 		$Shooter.shoot(dir)
-		# TEMP: fire to the right so we can test
-		#shooter.shoot(Vector2.RIGHT)
-		
-	if is_shooting:
-		pass
-		
+
+	# Movement input
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("move_left"):
@@ -56,17 +54,17 @@ func _process(delta: float) -> void:
 		velocity.y += 1
 	if Input.is_action_pressed("move_up"):
 		velocity.y -= 1
-			
-	if velocity.x != 0:
+
+	# Handle animation and direction
+	if velocity.length() > 0:
+		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.animation = "walk"
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
-
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
 		
-	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
+	self.velocity = velocity
+	move_and_slide()
+	
