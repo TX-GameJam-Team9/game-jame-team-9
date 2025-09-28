@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
-var is_shooting = false
+var player_anim = "idle"
 @onready var shooter = $Shooter
 
 func _enter_tree() -> void:
@@ -13,23 +13,19 @@ func after_shoot(anim_name):
 	if anim_name == "shoot":
 		$AnimatedSprite2D.animation = "walk"
 		$AnimatedSprite2D.play()
-		is_shooting = false
 
 func shoot_animation():
-	if is_shooting:
-		return
-	is_shooting = true
-	$AnimatedSprite2D.animation="shoot"
-	$AnimatedSprite2D.play()
+	player_anim = "shoot"
+	$AnimatedSprite2D.play(player_anim)
 	#aim with mouse
 	var dir := (get_global_mouse_position() - global_position).normalized()
 	emit_signal("shot", dir)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	add_to_group("player")
 	screen_size = get_viewport_rect().size
-	$AnimatedSprite2D.animation = "idle"
-	$AnimatedSprite2D.play()
+	$AnimatedSprite2D.play(player_anim)
 	$AnimatedSprite2D.animation_finished.connect(after_shoot)
 
 	
@@ -70,3 +66,17 @@ func _physics_process(delta: float) -> void:
 	self.velocity = velocity
 	move_and_slide()
 	
+#Player enemy collision
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		print ("YEOUCH")
+		
+#Animation resetter
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if player_anim == "shoot":
+		player_anim = "idle"
+		$AnimatedSprite2D.play(player_anim)
+
+
+func _on_animated_sprite_2d_animation_changed() -> void:
+	pass # Replace with function body.
