@@ -5,6 +5,7 @@ extends CharacterBody2D
 var screen_size # Size of the game window.
 var player_anim = "idle"
 @onready var shooter = $Shooter
+var game_timer: Node = null
 
 func _enter_tree() -> void:
 	MainInstance.player = self
@@ -26,7 +27,10 @@ func _ready() -> void:
 	add_to_group("player")
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite2D.play(player_anim)
+	$AnimatedSprite2D.animation_finished.connect(after_shoot)
 
+	# grab the timer node
+	game_timer = get_tree().root.get_node("RoomBase/CanvasLayer/GameTimer")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -36,6 +40,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle shooting input
 	if Input.is_action_just_pressed("shoot"):
+		print("Shots Fired!")
 		shoot_animation()
 		
 		var dir: Vector2 = (get_global_mouse_position() - $Shooter.global_position).normalized()
@@ -58,19 +63,28 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
 		$AnimatedSprite2D.play()
+	else:
+		$AnimatedSprite2D.stop()
 		
 	self.velocity = velocity
 	move_and_slide()
 	
-#Player enemy collision
+# Enemy collision
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
+		take_damage()
 		player_anim = "hurt"
 		$AnimatedSprite2D.play(player_anim)
-		
-#Animation resetter
+
+# Reset animation when done
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if player_anim != "idle":
 		player_anim = "idle"
 		$AnimatedSprite2D.play(player_anim)
-	
+
+# Timer damage hook
+func take_damage():
+	if game_timer:
+		game_timer.remove_time(10.0)
+	print("Player took damage!")
+		
