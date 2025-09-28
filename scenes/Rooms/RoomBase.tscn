@@ -15,7 +15,28 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-94, -138, 1103, -130, 
 
 [node name="EnemySpawns" type="Node2D" parent="."]
 
-[node name="Marker2D" type="Marker2D" parent="EnemySpawns"]
+[node name="Spawn1" type="Marker2D" parent="EnemySpawns"]
+
+[node name="Spawn2" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(1036, 0)
+
+[node name="Spawn3" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(1036, 600)
+
+[node name="Spawn4" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(0, 600)
+
+[node name="Spawn5" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(518, 0)
+
+[node name="Spawn6" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(518, 600)
+
+[node name="Spawn7" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(0, 300)
+
+[node name="Spawn8" type="Marker2D" parent="EnemySpawns"]
+position = Vector2(1036, 300)
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 
