@@ -3,6 +3,8 @@ extends Area2D
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
 var is_shooting = false
+@onready var shooter = $Shooter
+
 
 func after_shoot(anim_name):
 	if anim_name == "shoot":
@@ -27,15 +29,21 @@ func _ready() -> void:
 	$AnimatedSprite2D.play()
 	$AnimatedSprite2D.animation_finished.connect(after_shoot)
 
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO # The player's movement vector.
+	var to_mouse := get_global_mouse_position() - global_position
+	$AnimatedSprite2D.flip_h = to_mouse.x > 0    # flip left/right
+
 	if Input.is_action_just_pressed("shoot"):
-		print("Shots fired!")
+		print("Shots fired!") 
 		shoot_animation()
-		var dir = (get_global_mouse_position() - global_position).normalized()
-		emit_signal("shot", dir)
+		var dir := ((get_global_mouse_position() - $Shooter.global_position).normalized()) as Vector2
+		$Shooter.look_at(get_global_mouse_position())   # optional: rotate the shooter/muzzle to aim
+		$Shooter.shoot(dir)
+		# TEMP: fire to the right so we can test
+		#shooter.shoot(Vector2.RIGHT)
 		
 	if is_shooting:
 		pass
