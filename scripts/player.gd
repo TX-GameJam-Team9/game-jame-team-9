@@ -6,6 +6,8 @@ var screen_size # Size of the game window.
 var player_anim = "idle"
 var last_facing_right := false
 @onready var shooter = $Shooter
+
+@onready var walk_sfx = $Walk_SFX
 var game_timer: Node = null
 
 func _enter_tree() -> void:
@@ -64,12 +66,24 @@ func _physics_process(delta: float) -> void:
 			player_anim = "walk"
 		velocity = velocity.normalized() * speed
 
+		$AnimatedSprite2D.flip_v = false
+		$AnimatedSprite2D.flip_h = velocity.x > 0
+		$AnimatedSprite2D.play()
+		if not walk_sfx.playing:
+			walk_sfx.play()
+
+
 		if velocity.x != 0:
-			last_facing_right = velocity.x > 0
-			$AnimatedSprite2D.flip_h = last_facing_right
-		elif velocity.y != 0:
-			$AnimatedSprite2D.flip_h = last_facing_right
-		$AnimatedSprite2D.play(player_anim)
+      last_facing_right = velocity.x > 0
+      $AnimatedSprite2D.flip_h = last_facing_right
+      if not walk_sfx.playing:
+        walk_sfx.play()
+    elif velocity.y != 0:
+      $AnimatedSprite2D.flip_h = last_facing_right
+      $AnimatedSprite2D.play(player_anim)
+      if not walk_sfx.playing:
+        walk_sfx.play()
+
 	if velocity.length() == 0 && player_anim == "walk":
 			$AnimatedSprite2D.stop()
 
