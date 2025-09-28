@@ -28,6 +28,8 @@ func shoot(dir: Vector2) -> void:
 
 	# spawn a bit in front of the shooter
 	b.global_position = global_position + dir.normalized() * muzzle_distance
+	b.global_rotation = dir.angle()            # purely visual; velocity still drives movement
+
 
 	# give it velocity/speed (Bullet.gd defines @export var speed and var velocity)
 	b.velocity = dir.normalized() * b.speed
