@@ -118,20 +118,22 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Player" type="Node2D"]
+position = Vector2(-1, 2)
 
 [node name="Player" type="Area2D" parent="."]
-position = Vector2(65, 66)
+position = Vector2(-1, -3)
 script = ExtResource("1_hqtel")
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-scale = Vector2(1.75, 1.75)
-sprite_frames = SubResource("SpriteFrames_3v2ag")
-animation = &"idle"
-
 [node name="Shooter" type="Node2D" parent="Player"]
 script = ExtResource("6_70d11")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(-7.6293945e-06, -7.6293945e-06)
+scale = Vector2(1.75, 1.75)
+sprite_frames = SubResource("SpriteFrames_3v2ag")
+animation = &"shoot"
