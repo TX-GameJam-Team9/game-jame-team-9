@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var speed = 400 # How fast the bullet will move (pixels/sec).
+@export var lifetime: float = 1.0
 var screen_size # Size of the game window.
 var velocity := Vector2.ZERO # The bullet's movement vector.
 
@@ -17,6 +18,9 @@ func _on_shoot():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
+	get_tree().create_timer(lifetime).timeout.connect(queue_free)
+	if has_signal("body_entered"):
+		body_entered.connect(func(_b): queue_free())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
