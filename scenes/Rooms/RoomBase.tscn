@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://ugfi8smmrtc5"]
+[gd_scene load_steps=3 format=3 uid="uid://ugfi8smmrtc5"]
 
 [ext_resource type="PackedScene" uid="uid://klrob54qc0wb" path="res://scenes/props/Door.tscn" id="1_dkr1g"]
 
-[node name="RoomBase" type="Node2D"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dkr1g"]
+vertices = PackedVector2Array(1092.7813, -120.0625, 1074.2109, 737.97656, 650, 218, 650, 166, -186.75, 736.0078, 294, 218, -85.109375, -127.9375, 294, 166)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(7, 6, 0, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-94, -138, 1103, -130, 1084, 748, -198, 746)])
 
-[node name="TileMap" type="TileMap" parent="."]
-format = 2
+[node name="RoomBase" type="Node2D"]
 
 [node name="Doors" type="Node2D" parent="."]
 
@@ -16,3 +18,9 @@ format = 2
 [node name="Marker2D" type="Marker2D" parent="EnemySpawns"]
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_dkr1g")
+
+[node name="TileMap" type="TileMap" parent="NavigationRegion2D"]
+format = 2
