@@ -5,6 +5,7 @@ extends CharacterBody2D
 var screen_size # Size of the game window.
 var player_anim = "idle"
 @onready var shooter = $Shooter
+@onready var walk_sfx = $Walk_SFX
 
 func _enter_tree() -> void:
 	MainInstance.player = self
@@ -58,6 +59,8 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
 		$AnimatedSprite2D.play()
+		if not walk_sfx.playing:
+			walk_sfx.play()
 		
 	self.velocity = velocity
 	move_and_slide()
