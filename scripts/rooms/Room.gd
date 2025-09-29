@@ -142,7 +142,7 @@ func _on_time_up() -> void:
 	_clear_group("bullet")
 
 	# 4) (Optional) small delay for the hurt animation / UX
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(3.5).timeout
 
 	# 5) Quit the game
 	get_tree().quit()
