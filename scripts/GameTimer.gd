@@ -74,6 +74,7 @@ func _process(delta: float) -> void:
 	_update_ui()
 	#print("DEBUG | time_left =", time_left)  # 👈 Add this line
 	if time_left <= 0.0:
+		print("call _on_time_up()")
 		_on_time_up()
 
 func _on_time_up() -> void:
@@ -100,6 +101,7 @@ func _fmt(seconds: float) -> String:
 	var m := s / 60
 	var r := s % 60
 	return "%02d:%02d" % [m, r]
+	
 func add_time(amount: float) -> void:
 	time_left = clampf(time_left + amount, clamp_min, clamp_max)
 	emit_signal("time_changed", time_left)
@@ -113,4 +115,5 @@ func remove_time(amount: float) -> void:
 	emit_signal("time_changed", time_left)
 	_update_ui()
 	if time_left <= clamp_min:
+		print("call on_time_up")
 		_on_time_up()
