@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://rq11j4ny0bfa" path="res://assets/larryDeath.png" id="2_xwavj"]
 [ext_resource type="Texture2D" uid="uid://c4gybk14t5bht" path="res://assets/larryHurt.png" id="3_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://cft6lvqkvvqvf" path="res://assets/larrySS.png" id="4_5uy6h"]
-[ext_resource type="AudioStream" uid="uid://grbiwiu0ul0t" path="res://assets/enemyprojectilehit.mp3" id="4_c4w8v"]
 [ext_resource type="AudioStream" uid="uid://di84o6j5w2u1a" path="res://assets/enemydeath.mp3" id="5_c4w8v"]
+[ext_resource type="AudioStream" uid="uid://cpaj08tbkavvx" path="res://assets/fixedenemydamage.mp3" id="5_xwavj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_otmr2"]
 atlas = ExtResource("2_xwavj")
@@ -191,7 +191,7 @@ position = Vector2(5, 0)
 shape = SubResource("CapsuleShape2D_5uy6h")
 
 [node name="Enemy_Hurt_SFX" type="AudioStreamPlayer2D" parent="Enemy"]
-stream = ExtResource("4_c4w8v")
+stream = ExtResource("5_xwavj")
 
 [node name="Enemy_Death_SFX" type="AudioStreamPlayer2D" parent="Enemy"]
 stream = ExtResource("5_c4w8v")

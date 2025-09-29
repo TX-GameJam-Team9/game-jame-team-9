@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
-		$AnimatedSprite2D.play()
+		$AnimatedSprite2D.play(player_anim)
 
 		if not walk_sfx.playing:
 			walk_sfx.play()
@@ -97,8 +97,8 @@ func _physics_process(delta: float) -> void:
 # Enemy collision
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and not is_dead:
-		take_damage()
 		player_anim = "hurt"
+		take_damage()
 		$AnimatedSprite2D.play(player_anim)
 		$Player_Hurt_SFX.play()
 
@@ -144,5 +144,5 @@ func die() -> void:
 
 	# Play death animation and sound
 	player_anim = "death"
-	$AnimatedSprite2D.play("death")
+	$AnimatedSprite2D.play(player_anim)
 	$Player_Death_SFX.play()

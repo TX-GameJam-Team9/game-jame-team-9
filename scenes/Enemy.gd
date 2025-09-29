@@ -60,6 +60,10 @@ func _physics_process(delta: float) -> void:
 		return
 	update_path()
 	var direction := (nav.get_next_path_position() - global_position).normalized()
+	
+	if direction.x != 0:
+		sprite.flip_h = direction.x > 0  # Flip when moving right
+	
 	translate(direction * speed * delta)
 
 func _on_area_entered(area: Area2D) -> void:
