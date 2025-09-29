@@ -2,7 +2,7 @@ extends Area2D
 @onready var enemy_death_sfx: AudioStreamPlayer2D = $Enemy_Death_SFX
 @onready var enemy_hurt_sfx: AudioStreamPlayer2D = $Enemy_Hurt_SFX
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
-@export var speed: float = 30.0          # teammate had 30 in _physics_process
+@export var speed: float = 120.0          # teammate had 30 in _physics_process
 @export var hits_to_kill: int = 5        # how many bullet hits until death
 @export var time_reward: float = 6.0     # seconds to add on kill
 
@@ -57,7 +57,12 @@ func _on_area_entered(area: Area2D) -> void:
 		finished = true
 		if game_timer:
 			game_timer.add_time(time_reward)
-		# play death here if you have one; otherwise just free
+		$AnimatedSprite2D.play("death")
+		$CollisionShape2D.disabled = true
+
+
+func _on_AnimatedSprite2D_animation_finished():
+	if $AnimatedSprite2D.animation == "death":
 		queue_free()
 
 # Goes back to idle once hurt animation finishes (unless already killed)
