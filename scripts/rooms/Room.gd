@@ -22,6 +22,7 @@ signal door_entered(room, direction: String)
 
 var _alive := 0
 var _entered := false
+var _death_fired:= false
 
 func _room_rect_px() -> Rect2:
 	var used: Rect2i = tilemap.get_used_rect()
@@ -48,7 +49,8 @@ func _ready() -> void:
 	if not spawn_timer.timeout.is_connected(_on_spawn_tick):
 		spawn_timer.timeout.connect(_on_spawn_tick)
 	spawn_timer.start()
-
+	if not game_timer.timer_ended.is_connected(_on_time_up):
+		game_timer.timer_ended.connect(_on_time_up)
 	# (optional) start with a few on room enter
 	_spawn_initial()
 
@@ -75,6 +77,7 @@ func _pick_spawn_pos() -> Vector2:
 	return _rand_point_in_rect(rect, 96.0)  # fallback
 
 func _spawn_one() -> void:
+	if _death_fired: return
 	if enemy_scene == null or _capacity() <= 0:
 		return
 	var e := enemy_scene.instantiate()
@@ -89,7 +92,7 @@ func _on_enemy_left_tree() -> void:
 	if cap <= 0:
 		return
 	var n := randi_range(0, spawn_chunk_max)
-	if _alive_count() == 0:
+	if not _death_fired and _alive_count() == 0:
 		n = max(1, n)  # guarantee at least 1 if you just cleared them all
 	n = min(n, cap)
 	for i in range(n):
@@ -97,6 +100,7 @@ func _on_enemy_left_tree() -> void:
 
 
 func _on_spawn_tick() -> void:
+	if _death_fired: return
 	var cap := _capacity()
 	if cap <= 0:
 		return
@@ -113,8 +117,35 @@ func _spawn_initial() -> void:
 	var n := 4
 	for i in n:
 		_spawn_one()
+
+func _clear_group(group_name: String) -> void:
+	for n in get_tree().get_nodes_in_group(group_name):
+		if is_instance_valid(n):
+			n.queue_free()
+
 func _on_time_up() -> void:
-	print("Time up → Lose screen / reload room")
+	print("Time is up, _on_time_up()")
+	if _death_fired: return
+	_death_fired = true
+
+	# 1) Stop further spawns if you have a spawn timer
+	if has_node("EnemySpawnTimer"):
+		$EnemySpawnTimer.stop()
+
+	# 2) Tell player to die (if present)
+	if MainInstance.player and is_instance_valid(MainInstance.player):
+		if MainInstance.player.has_method("die"):
+			MainInstance.player.die()
+
+	# 3) Clear enemies (and bullets) from the scene
+	_clear_group("enemy")
+	_clear_group("bullet")
+
+	# 4) (Optional) small delay for the hurt animation / UX
+	await get_tree().create_timer(0.6).timeout
+
+	# 5) Quit the game
+	get_tree().quit()
 
 func _on_win() -> void:
 	print("You win! → Next room / victory screen")

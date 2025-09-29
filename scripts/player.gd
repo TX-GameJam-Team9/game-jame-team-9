@@ -6,6 +6,7 @@ var screen_size # Size of the game window.
 var player_anim = "idle"
 var last_facing_right := false
 @onready var shooter = $Shooter
+var is_dead := false
 
 @onready var walk_sfx = $Walk_SFX
 var game_timer: Node = null
@@ -41,7 +42,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var velocity: Vector2 = Vector2.ZERO
 	var to_mouse: Vector2 = get_global_mouse_position() - global_position
-
+	if is_dead:
+		print("Dead")
+		return
 	# Handle shooting input
 	if Input.is_action_just_pressed("shoot"):
 		print("Shots Fired!")
@@ -111,3 +114,12 @@ func take_damage():
 		game_timer.remove_time(10.0)
 	print("Player took damage!")
 		
+
+func die() ->void:
+	if is_dead: return
+	print("You Died!")
+	is_dead = true
+	set_process(false)
+	set_physics_process(false)
+	#$CollisionShape2D.disabled = true
+	$AnimatedSprite2D.play("hurt")
