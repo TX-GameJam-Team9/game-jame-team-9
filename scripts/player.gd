@@ -23,7 +23,7 @@ func shoot_animation():
 	player_anim = "shoot"
 	$AnimatedSprite2D.play(player_anim)
 	$Spitball_SFX.play()
-	#aim with mouse
+	# Aim with mouse
 	var dir := (get_global_mouse_position() - global_position).normalized()
 	emit_signal("shot", dir)
 
@@ -32,22 +32,21 @@ func _ready() -> void:
 	add_to_group("player")
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite2D.play(player_anim)
-	$AnimatedSprite2D.animation_finished.connect(after_shoot)
+	$AnimatedSprite2D.animation_finished.connect(_on_animated_sprite_2d_animation_finished)
 
 	# grab the timer node
 	game_timer = get_tree().root.get_node("RoomBase/CanvasLayer/GameTimer")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-
 func _physics_process(delta: float) -> void:
-	var velocity: Vector2 = Vector2.ZERO
-	var to_mouse: Vector2 = get_global_mouse_position() - global_position
 	if is_dead:
-		print("Dead")
+		# Stop all movement and input after death
 		return
+
+	var velocity: Vector2 = Vector2.ZERO
+
 	# Handle shooting input
 	if Input.is_action_just_pressed("shoot"):
-		print("Shots Fired!")
 		shoot_animation()
 		
 		var dir: Vector2 = (get_global_mouse_position() - $Shooter.global_position).normalized()
@@ -66,37 +65,38 @@ func _physics_process(delta: float) -> void:
 
 	# Handle animation and direction
 	if velocity.length() > 0:
-		if player_anim != "hurt" && player_anim != "shoot":
+		if player_anim != "hurt" and player_anim != "shoot":
 			player_anim = "walk"
 		velocity = velocity.normalized() * speed
 
 		$AnimatedSprite2D.flip_v = false
 		$AnimatedSprite2D.flip_h = velocity.x > 0
 		$AnimatedSprite2D.play()
+
 		if not walk_sfx.playing:
 			walk_sfx.play()
-
 
 	if velocity.x != 0:
 		last_facing_right = velocity.x > 0
 		$AnimatedSprite2D.flip_h = last_facing_right
-	if not walk_sfx.playing:
-		walk_sfx.play()
+
+	# If velocity y != 0, play animation with correct flip
 	elif velocity.y != 0:
 		$AnimatedSprite2D.flip_h = last_facing_right
 		$AnimatedSprite2D.play(player_anim)
-	if not walk_sfx.playing:
-		walk_sfx.play()
 
-	if velocity.length() == 0 && player_anim == "walk":
-			$AnimatedSprite2D.stop()
+	# Stop walking sound if player not moving
+	if velocity.length() == 0:
+		$AnimatedSprite2D.stop()
+		if walk_sfx.playing:
+			walk_sfx.stop()
 
 	self.velocity = velocity
 	move_and_slide()
 	
 # Enemy collision
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
+	if area.is_in_group("enemy") and not is_dead:
 		take_damage()
 		player_anim = "hurt"
 		$AnimatedSprite2D.play(player_anim)
@@ -104,22 +104,45 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 # Reset animation when done
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if player_anim != "idle":
-		player_anim = "idle"
-		$AnimatedSprite2D.play(player_anim)
+	match player_anim:
+		"idle":
+			pass
+		"hurt":
+			player_anim = "idle"
+			$AnimatedSprite2D.play("idle")
+		"shoot":
+			player_anim = "idle"
+			$AnimatedSprite2D.play("idle")
+		"death":
+			print("Death animation finished")
+			# After death animation finishes, disable processing and transition
+			set_process(false)
+			set_physics_process(false)
+
+			await get_tree().create_timer(1.5).timeout
+			get_tree().change_scene_to_file("res://scenes/GameOver.tscn")
 
 # Timer damage hook
 func take_damage():
 	if game_timer:
 		game_timer.remove_time(10.0)
 	print("Player took damage!")
-		
 
-func die() ->void:
-	if is_dead: return
+func die() -> void:
+	if is_dead:
+		return
 	print("You Died!")
 	is_dead = true
-	set_process(false)
-	set_physics_process(false)
-	#$CollisionShape2D.disabled = true
-	$AnimatedSprite2D.play("hurt")
+
+	# Disable collision (adjust node name as needed)
+	if $CollisionForWorld:
+		$CollisionForWorld.disabled = true
+
+	# Stop walk sound if playing
+	if walk_sfx.playing:
+		walk_sfx.stop()
+
+	# Play death animation and sound
+	player_anim = "death"
+	$AnimatedSprite2D.play("death")
+	$Player_Death_SFX.play()
