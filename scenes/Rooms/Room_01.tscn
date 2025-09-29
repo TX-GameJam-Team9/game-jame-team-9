@@ -263,16 +263,16 @@ source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sg8al"]
-size = Vector2(960, 64)
+size = Vector2(1037, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05q7r"]
-size = Vector2(960, 64)
+size = Vector2(1024, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g3d1a"]
 size = Vector2(64, 640)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cwvqp"]
-size = Vector2(64, 288)
+size = Vector2(64, 333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r5y8k"]
 size = Vector2(81, 28.5)
@@ -313,11 +313,11 @@ position = Vector2(525, 490)
 collision_layer = 2
 
 [node name="Top" type="CollisionShape2D" parent="Walls" index="0"]
-position = Vector2(480, -32)
+position = Vector2(518.5, -32)
 shape = SubResource("RectangleShape2D_sg8al")
 
 [node name="Bottom" type="CollisionShape2D" parent="Walls" index="1"]
-position = Vector2(480, 608)
+position = Vector2(512, 608)
 shape = SubResource("RectangleShape2D_05q7r")
 
 [node name="Left" type="CollisionShape2D" parent="Walls" index="2"]
@@ -325,11 +325,11 @@ position = Vector2(-32, 320)
 shape = SubResource("RectangleShape2D_g3d1a")
 
 [node name="Right" type="CollisionShape2D" parent="Walls" index="3"]
-position = Vector2(992, 144)
+position = Vector2(1056, 164.5)
 shape = SubResource("RectangleShape2D_cwvqp")
 
 [node name="Right2" type="CollisionShape2D" parent="Walls" index="4"]
-position = Vector2(992, 496)
+position = Vector2(1056, 499)
 shape = SubResource("RectangleShape2D_cwvqp")
 
 [node name="Hay1" type="CollisionShape2D" parent="Walls" index="5"]

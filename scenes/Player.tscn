@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://c46byyqj7egtb" path="res://scripts/shooter.gd" id="6_70d11"]
 [ext_resource type="AudioStream" uid="uid://bipqqukhr0jrv" path="res://assets/walkingdemo.mp3" id="6_cw2d6"]
 [ext_resource type="AudioStream" uid="uid://bmfcp6lu0j3hu" path="res://assets/spitball.mp3" id="7_cw2d6"]
-[ext_resource type="AudioStream" uid="uid://davakvi6nt5u6" path="res://assets/playerdamage.mp3" id="8_khinc"]
+[ext_resource type="AudioStream" uid="uid://dv0242pp5xnma" path="res://assets/fixedplayerdamage.mp3" id="9_6eyey"]
 [ext_resource type="AudioStream" uid="uid://ltw3yyo3wrtq" path="res://assets/playerdeath.mp3" id="9_bruh7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d3wef"]
@@ -310,13 +310,17 @@ scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_3v2ag")
 animation = &"death"
 autoplay = "idle"
+frame = 12
+frame_progress = 0.54242283
 
 [node name="Area2D" type="Area2D" parent="CharacterBody2D" groups=["player"]]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D"]
 shape = SubResource("CapsuleShape2D_mdl7e")
 
 [node name="CollisionForWorld" type="CollisionShape2D" parent="CharacterBody2D"]
+visible = false
 shape = SubResource("CapsuleShape2D_qu4a1")
 
 [node name="Walk_SFX" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
@@ -326,12 +330,15 @@ pitch_scale = 1.3
 
 [node name="Spitball_SFX" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
 stream = ExtResource("7_cw2d6")
+volume_db = 12.0
 
 [node name="Player_Hurt_SFX" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
-stream = ExtResource("8_khinc")
+stream = ExtResource("9_6eyey")
+volume_db = 24.0
 
 [node name="Player_Death_SFX" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
 stream = ExtResource("9_bruh7")
+volume_db = 24.0
 
 [connection signal="animation_changed" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_changed"]
 [connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_finished"]
