@@ -19,9 +19,24 @@ func _ready() -> void:
 	randomize()
 	add_to_group("enemy")
 
-	var mob_types = sprite.sprite_frames.get_animation_names()
-	anim_name = mob_types[randi() % mob_types.size()]
+	var names := sprite.sprite_frames.get_animation_names()
+	var idle_pool: Array[StringName] = []
+	for n in names:
+		if n != "death" and n != "hurt":
+			idle_pool.append(n)
+
+	if idle_pool.size() == 0:
+		anim_name = "default"  # fallback if only death/hurt exist
+	else:
+		anim_name = idle_pool[randi() % idle_pool.size()]
+
 	sprite.play(anim_name)
+
+	# Make sure death/hurt don't loop (just in case the resource was set to loop)
+	if sprite.sprite_frames.has_animation("death"):
+		sprite.sprite_frames.set_animation_loop("death", false)
+	if sprite.sprite_frames.has_animation("hurt"):
+		sprite.sprite_frames.set_animation_loop("hurt", false)
 
 	# Cache reference to timer (adjust path if needed)
 	game_timer = get_tree().root.get_node("RoomBase/CanvasLayer/GameTimer")
@@ -68,6 +83,10 @@ func _on_area_entered(area: Area2D) -> void:
 		collider.disabled = true
 		sprite.play("death")
 		enemy_death_sfx.play()
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("death"):
+			sprite.sprite_frames.set_animation_loop("death", false)
+			sprite.play("death")
+			await sprite.animation_finished   # wait exactly one finish
 
 		if game_timer:
 			game_timer.add_time(time_reward)
