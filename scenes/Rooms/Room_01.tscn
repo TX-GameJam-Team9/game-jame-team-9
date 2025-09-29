@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bqdosvpbpy4vi" path="res://scenes/enemy.tscn" id="3_sg8al"]
 [ext_resource type="Script" uid="uid://cnr03shh7mobo" path="res://scenes/player.gd" id="4_05q7r"]
 [ext_resource type="Script" uid="uid://bcr726ruxa74c" path="res://scripts/GameTimer.gd" id="6_g3d1a"]
-[ext_resource type="AudioStream" uid="uid://mo0c41nhohyb" path="res://assets/actualactualdungeonlevelfinal.mp3" id="8_r5y8k"]
+[ext_resource type="AudioStream" uid="uid://ica58p63hb5p" path="res://assets/theme.mp3" id="8_r5y8k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5y8k"]
 texture = ExtResource("2_q7gib")

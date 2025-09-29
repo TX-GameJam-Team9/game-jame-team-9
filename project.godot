@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GameJam-Team9"
+config/name="Spitball Nine"
 run/main_scene="uid://i7g74yn170kj"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://assets/icon.svg"
