@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://i7g74yn170kj"]
+[gd_scene load_steps=20 format=3 uid="uid://i7g74yn170kj"]
 
 [ext_resource type="PackedScene" uid="uid://ugfi8smmrtc5" path="res://scenes/Rooms/RoomBase.tscn" id="1_kl4sb"]
 [ext_resource type="Script" uid="uid://cs23dg1o4ycm2" path="res://scripts/rooms/Room.gd" id="2_cwvqp"]
@@ -274,6 +274,9 @@ size = Vector2(64, 640)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cwvqp"]
 size = Vector2(64, 288)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r5y8k"]
+size = Vector2(81, 28.5)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwvqp"]
 bg_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
 
@@ -329,6 +332,14 @@ shape = SubResource("RectangleShape2D_cwvqp")
 position = Vector2(992, 496)
 shape = SubResource("RectangleShape2D_cwvqp")
 
+[node name="Hay1" type="CollisionShape2D" parent="Walls" index="5"]
+position = Vector2(158, 185)
+shape = SubResource("RectangleShape2D_r5y8k")
+
+[node name="Hay2" type="CollisionShape2D" parent="Walls" index="6"]
+position = Vector2(158, 438.75)
+shape = SubResource("RectangleShape2D_r5y8k")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="9"]
 
 [node name="HUD" type="Control" parent="CanvasLayer" index="0"]
@@ -361,7 +372,7 @@ script = ExtResource("6_g3d1a")
 [node name="MainTheme" type="AudioStreamPlayer2D" parent="." index="10"]
 stream = ExtResource("8_r5y8k")
 autoplay = true
-parameters/looping = false
+parameters/looping = true
 
 [node name="EnemySpawnTimer" type="Timer" parent="." index="11"]
 wait_time = 1.5
